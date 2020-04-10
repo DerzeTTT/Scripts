@@ -23,4 +23,4 @@ LocalPlayer.Chatted:Connect(function(msg)
         game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game:GetService("Players").LocalPlayer)
         print("Rejoining")
      end
-end
+end)
