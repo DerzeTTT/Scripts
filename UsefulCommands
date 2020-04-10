@@ -1,0 +1,26 @@
+game:GetService("RunService").RenderStepped:Wait()
+
+print("Useful commands v0.2 initialized!")
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
+
+Players.PlayerAdded:Connect(function(Player)
+    if Player == LocalPlayer then return false end
+    pcall(function()
+    StarterGui:SetCore("ChatMakeSystemMessage", {Text = Player.Name.." has joined the game!", Font = Enum.Font.SourceSans})
+    end)
+end)
+
+Players.PlayerRemoving:Connect(function(Player)
+if Player == LocalPlayer then return false end
+StarterGui:SetCore("ChatMakeSystemMessage", {Text = Player.Name.." has left the game!", Font = Enum.Font.SourceSans})
+end)
+
+LocalPlayer.Chatted:Connect(function(msg)
+    if msg:lower() == "/e rejoin" then
+        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game:GetService("Players").LocalPlayer)
+        print("Rejoining")
+     end
+end
