@@ -1,13 +1,5 @@
 wait(8)
 
-local CheckPlace(ID)
-if game.PlaceId == ID then
-return true
-else
-return false
-end
-end
-
 print("Useful commands v0.2 initialized!")
 
 local Players = game:GetService("Players")
@@ -15,7 +7,6 @@ local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 
 Players.PlayerAdded:Connect(function(Player)
-if CheckPlace(914010731) then return false end
     if Player == LocalPlayer then return false end
     pcall(function()
     StarterGui:SetCore("ChatMakeSystemMessage", {Text = Player.Name.." has joined the game!", Font = Enum.Font.SourceSans})
@@ -23,7 +14,6 @@ if CheckPlace(914010731) then return false end
 end)
 
 Players.PlayerRemoving:Connect(function(Player)
-if CheckPlace(914010731) then return false end
 if Player == LocalPlayer then return false end
 StarterGui:SetCore("ChatMakeSystemMessage", {Text = Player.Name.." has left the game!", Font = Enum.Font.SourceSans})
 end)
