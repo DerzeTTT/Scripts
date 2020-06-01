@@ -5,6 +5,8 @@ print("Useful commands v0.2 initialized!")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
+local Prefix = "//"
+
 
 Players.PlayerAdded:Connect(function(Player)
     if Player == LocalPlayer then return false end
@@ -18,9 +20,38 @@ if Player == LocalPlayer then return false end
 StarterGui:SetCore("ChatMakeSystemMessage", {Text = Player.Name.." has left the game!", Font = Enum.Font.SourceSans})
 end)
 
-game:GetService("Players").LocalPlayer.Chatted:Connect(function(msg)
-    if msg:lower() == "/e rejoin" then
+LocalPlayer.Chatted:Connect(function(msg)
+    if msg:lower() == Prefix.." rejoin" then
         game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game:GetService("Players").LocalPlayer)
         print("Rejoining")
      end
 end)
+
+
+
+
+
+
+
+local mt = getrawmetatable(game)
+local oldNamecall = mt.__namecall
+if setreadonly then setreadonly(mt, false) else make_writeable(mt, true) end
+local namecallMethod = getnamecallmethod or get_namecall_method
+local newClose = newcclosure or function(f) return f end
+
+mt.__namecall = newClose(function(...)
+    local method = namecallMethod()
+    local args = {...}
+
+    if tostring(method) == "FireServer" and tostring(args[1]) == "SayMessageRequest" then
+        if args[2]:sub(1,2) == Prefix then
+            args[1] = ""
+        end
+
+        return oldNamecall(unpack(args))
+    end
+
+    return oldNamecall(...)
+end)
+
+if setreadonly then setreadonly(mt, true) else make_writeable(mt, false) end
