@@ -255,7 +255,7 @@ TextLabel.TextWrapped = true
 
 -- Scripts:
 
-local function ZQWNA_fake_script() -- StandChanger.Handler 
+local function CNSFLDC_fake_script() -- StandChanger.Handler 
 	local script = Instance.new('LocalScript', StandChanger)
 
 	local Main = script.Parent
@@ -277,7 +277,6 @@ local function ZQWNA_fake_script() -- StandChanger.Handler
 	local DefaultBlurSize = 15
 	local CurrentStand = ""
 	local StandFound = false
-	local PlayerFound = false
 	local OldStandName
 	
 	local function GetStandFromBackpack(Request)
@@ -293,13 +292,6 @@ local function ZQWNA_fake_script() -- StandChanger.Handler
 			return true
 		end
 	end
-	
-	local function GetLightingMethod()
-		if Lighting:FindFirstChild(GetStandFromBackpack(Players.LocalPlayer), true) then
-			return true
-		end
-	end
-	
 	
 	local function FindStandFromString(Request)
 		if Lighting:FindFirstChild(Request, true) then
@@ -356,14 +348,12 @@ local function ZQWNA_fake_script() -- StandChanger.Handler
 	end
 	
 	local function GiveStand()
-		if StandFound then
 			for _,v in pairs(Players.LocalPlayer.Backpack:GetChildren()) do
 				if v.Name == OldStandName then
 					v:Destroy()
 				end
 			end
-		CurrentStand:Clone().Parent = Players.LocalPlayer.Backpack
-		end
+			CurrentStand:Clone().Parent = Players.LocalPlayer.Backpack
 	end
 	
 	local function SelectStand()
@@ -431,32 +421,28 @@ local function ZQWNA_fake_script() -- StandChanger.Handler
 	--Stand Copier
 	
 	StandCopier.PlayerName.Focused:Connect(function()
-		PlayerFound = false
 		StandCopier.PlayerName.TextColor3 = Color3.new(255,255,255)
 	end)
 	
 	StandCopier.PlayerName.FocusLost:Connect(function()
-		if FindPlayerFromString(StandCopier.PlayerName.Text) then
+		if FindPlayerFromString(StandCopier.PlayerName.Text) and StandCopier.PlayerName.Text ~= Players.LocalPlayer.Name then
 			local FoundPlayer = FindPlayerFromString(StandCopier.PlayerName.Text)
-			PlayerFound = true
 			StandCopier.PlayerName.Text = FoundPlayer
 			StandCopier.PlayerName.TextColor3 = Color3.new(0,255,0)
 			StandCopier.PlayersStand.Text = GetStandFromBackpack(Players[FoundPlayer]).Name
 		else
-			PlayerFound = false
 			StandCopier.PlayerName.TextColor3 = Color3.new(255,0,0)
 			StandCopier.PlayersStand.Text = "N/A"
 		end
 	end)
 	
 	StandCopier.GetStand.MouseButton1Click:Connect(function()
-		if PlayerFound then
+		local FoundPlayer = FindPlayerFromString(StandCopier.PlayerName.Text)
 			OldStandName = GetStandFromBackpack(Players.LocalPlayer).Name
-		    CurrentStand = GetStandFromBackpack(Players[StandCopier.PlayerName.Text])
+			CurrentStand = GetStandFromBackpack(Players[FoundPlayer])
 			Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").CFrame = CFrame.new(0,-1000,0)
 			wait(0.1)
 			Players.LocalPlayer.Character:BreakJoints()
-		end
 	end)
 	
 	UIS.InputBegan:Connect(function(Key, Processed)
@@ -467,7 +453,7 @@ local function ZQWNA_fake_script() -- StandChanger.Handler
 		end
 	end)
 	
-	for _,v in pairs(Lighting:GetDescendants()) do
+	for i,v in pairs(Lighting:GetDescendants()) do
 		if v:IsA("LocalScript") then
 			local C = StandList.Sample:Clone()
 			C.Parent = StandList
@@ -502,4 +488,4 @@ local function ZQWNA_fake_script() -- StandChanger.Handler
 	end)
 	setreadonly(mt, true)
 end
-coroutine.wrap(ZQWNA_fake_script)()
+coroutine.wrap(CNSFLDC_fake_script)()
