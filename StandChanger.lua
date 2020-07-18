@@ -16,7 +16,7 @@ local PlayersStand = Instance.new("TextLabel")
 local GetStand_2 = Instance.new("TextButton")
 local StandList = Instance.new("ScrollingFrame")
 local ListLayout = Instance.new("UIListLayout")
-local Sample = Instance.new("TextLabel")
+local Sample = Instance.new("TextButton")
 local StandListTitle = Instance.new("TextLabel")
 local Arrow = Instance.new("TextButton")
 local TextButton_Roundify_12px = Instance.new("ImageLabel")
@@ -188,14 +188,13 @@ Sample.Name = "Sample"
 Sample.Parent = StandList
 Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Sample.BackgroundTransparency = 1.000
-Sample.Position = UDim2.new(0.271419555, 0, 0.0403682701, 0)
 Sample.Size = UDim2.new(0, 260, 0, 25)
 Sample.Visible = false
 Sample.Font = Enum.Font.GothamSemibold
 Sample.Text = "StandName"
 Sample.TextColor3 = Color3.fromRGB(255, 255, 255)
 Sample.TextScaled = true
-Sample.TextSize = 10.000
+Sample.TextSize = 14.000
 Sample.TextWrapped = true
 
 StandListTitle.Name = "StandListTitle"
@@ -256,7 +255,7 @@ TextLabel.TextWrapped = true
 
 -- Scripts:
 
-local function CXVLEIR_fake_script() -- StandChanger.Handler 
+local function ZQWNA_fake_script() -- StandChanger.Handler 
 	local script = Instance.new('LocalScript', StandChanger)
 
 	local Main = script.Parent
@@ -367,6 +366,13 @@ local function CXVLEIR_fake_script() -- StandChanger.Handler
 		end
 	end
 	
+	local function SelectStand()
+		local FoundStand = FindStandFromString(StandChanger.StandName.Text)
+		StandFound = true
+		StandChanger.StandName.Text = FoundStand
+		StandChanger.StandName.TextColor3 = Color3.new(0,255,0)
+	end
+	
 	local function UpdateCanvasSize(Canvas, Constraint)
 	    Canvas.CanvasSize = UDim2.new(0, Constraint.AbsoluteContentSize.X, 0, Constraint.AbsoluteContentSize.Y)
 	end
@@ -471,6 +477,15 @@ local function CXVLEIR_fake_script() -- StandChanger.Handler
 		end
 	end
 	
+	for _,v in pairs(StandList:GetChildren()) do
+		if v.Name == "Sample" and v.Visible == true then
+			v.MouseButton1Click:Connect(function()
+			    StandFound = true
+			    StandChanger.StandName.Text = v.Text
+			    StandChanger.StandName.TextColor3 = Color3.new(0,255,0)
+			end)
+		end
+	end
 	
 	local mt = getrawmetatable(game)
 	local oldNameCall = mt.__namecall
@@ -487,4 +502,4 @@ local function CXVLEIR_fake_script() -- StandChanger.Handler
 	end)
 	setreadonly(mt, true)
 end
-coroutine.wrap(CXVLEIR_fake_script)()
+coroutine.wrap(ZQWNA_fake_script)()
